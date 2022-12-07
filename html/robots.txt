@@ -1,0 +1,8 @@
+User-agent: Unnecessarybot
+Disallow: /
+
+User-agent: googlebot
+Disallow: /csv/
+
+User-agent: *
+Allow: /
