@@ -4,7 +4,7 @@ function makeHeader(){
     <header>
     <title>IP Location</title>
     <link rel="icon" type="image/x-icon" href="/icon/gear.ico">
-    <link href="style.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
     </header>
     ');
 }
