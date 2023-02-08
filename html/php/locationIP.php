@@ -1,10 +1,10 @@
 <?php
-define("MYSQL_HOST", "localhost");
-define("MYSQL_DATABASE", "ip");
-define("MYSQL_USER", "jordan");
-define("MYSQL_PASSWORD", "toto");
+//Recupère les accès depuis la config
+define("JSON_FILE", json_decode(file_get_contents("json/config.json"), true));
+
 $dbh = null;
 
+//Fonction qui permet de récupérer les informations provenant d'une ip donnée
 function geolocalisation($ip_to_find){
     //16799232 JP  1844410624 FR  3701407488 US
     $location_ip_dictionary = array();
@@ -12,9 +12,9 @@ function geolocalisation($ip_to_find){
     $computed_ip = $array_ip[3] + $array_ip[2] * 256 + $array_ip[1] * 256 * 256 + $array_ip[0] * 256 * 256 * 256;
     try {
         $pdo = new PDO(
-            "mysql:host=".MYSQL_HOST.";dbname=".MYSQL_DATABASE,
-            MYSQL_USER,
-            MYSQL_PASSWORD,
+            "mysql:host=".JSON_FILE["MYSQL_HOST"].";dbname=".JSON_FILE["MYSQL_DATABASE"],
+            JSON_FILE["MYSQL_USER"],
+            JSON_FILE["MYSQL_PASSWORD"],
             array(
                 PDO::MYSQL_ATTR_LOCAL_INFILE => true,
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
@@ -42,14 +42,14 @@ function geolocalisation($ip_to_find){
 }
 
 
-
+//Fonction qui va insérer les données du csv dans la base de données
 function insertData(){
     global $dbh;
     define("SQL_INSERT", "INSERT INTO geoip(ip_from, ip_to, country_code, country_name, region_name, city_name, latitude, longitude) VALUES (%d, %d, '%s', '%s', '%s', '%s', %f, %f) ");
 
-    $pdo_connection_string = sprintf( "mysql:host=%s;dbname=%s;charset=utf8", MYSQL_HOST, MYSQL_DATABASE );
-    
-    $dbh = new PDO( $pdo_connection_string, MYSQL_USER, MYSQL_PASSWORD );
+    $pdo_connection_string = sprintf( "mysql:host=%s;dbname=%s;charset=utf8", JSON_FILE["MYSQL_HOST"], JSON_FILE["MYSQL_DATABASE"] );
+
+    $dbh = new PDO( $pdo_connection_string, JSON_FILE["MYSQL_USER"], JSON_FILE["MYSQL_PASSWORD"] );
     $dbh->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
     
     execSQL("TRUNCATE TABLE geoip");
@@ -87,7 +87,8 @@ function insertData(){
     
     $dbh = NULL;
 }
-    
+
+//Fonction qui permet d'exécuter le SQL qu'il y a dans l'insertion de data du csv
 function execSQL($p_query)
 {
     global $dbh;

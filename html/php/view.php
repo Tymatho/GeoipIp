@@ -1,4 +1,6 @@
 <?php
+
+//Function qui crée un header
 function makeHeader(){
     echo('
     <header>
@@ -9,6 +11,7 @@ function makeHeader(){
     ');
 }
 
+//Fonction qui crée le contenu de GEOIP grâce à l'ip du serveur et à ses paramètres
 function makeContent($p_server_ip, $p_server_ip_parameters){
   $country_code = "NOT FOUND";
   $country_name = "NOT FOUND";
@@ -50,6 +53,7 @@ function makeContent($p_server_ip, $p_server_ip_parameters){
   ');
 }
 
+//Fonction qui crée une 403 et qui renvoie le code 403
 function make403(){
   makeHeader();
   echo('
@@ -57,8 +61,10 @@ function make403(){
       <h1>ERROR 403</h1>
     </body>
   ');
+  http_response_code(403);
 }
 
+//Fonction qui crée la vue de GEOIP en entier
 function makeView($p_server_ip, $p_server_ip_parameters){
     makeHeader();
     makeContent($p_server_ip, $p_server_ip_parameters);

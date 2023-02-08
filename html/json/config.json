@@ -1,0 +1,6 @@
+{
+    "MYSQL_HOST":"localhost",
+    "MYSQL_DATABASE":"ip",
+    "MYSQL_USER":"jordan",
+    "MYSQL_PASSWORD":"toto"
+}

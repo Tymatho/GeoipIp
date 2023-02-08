@@ -1,4 +1,5 @@
 <?php
+//Fichier pour tester la géolocalisation pour des ip aléatoires : SE GENERE PAR COMMANDE
 require_once('locationIP.php');
 define("NB_TEST", 98);
 
